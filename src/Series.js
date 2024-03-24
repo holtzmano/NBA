@@ -1,14 +1,25 @@
 import React from 'react';
+import teams from './teamData';
 
-function Series({ idPrefix, team1Id, team2Id, onScoreChange }) {
+function Series({ idPrefix, onScoreChange }) {
+    const [team1, setTeam1] = React.useState('');
+    const [team2, setTeam2] = React.useState('');
+
+    // Handles the score input changes as before
     const handleInputChange = (team, event) => {
         const score = event.target.value;
         onScoreChange(idPrefix, team, score);
     };
+
     return (
         <div className="series mb-3">
             <div className="input-group">
-                <span className='input-group-text'>{team1Id.toUpperCase()}</span>
+                <select className='form-select' value={team1} onChange={(e) => setTeam1(e.target.value)}>
+                    <option value="">Select Team</option>
+                    {teams.map(team => (
+                        <option key={team.id} value={team.id}>{team.name}</option>
+                    ))}
+                </select>
                 <input
                     type='number'
                     className='form-control'
@@ -19,7 +30,12 @@ function Series({ idPrefix, team1Id, team2Id, onScoreChange }) {
                     required
                     onChange={handleInputChange.bind(null, 'team1')}
                 />
-                <span className='input-group-text'>{team2Id.toUpperCase()}</span>
+                <select className='form-select' value={team2} onChange={(e) => setTeam2(e.target.value)}>
+                    <option value="">Select Team</option>
+                    {teams.map(team => (
+                        <option key={team.id} value={team.id}>{team.name}</option>
+                    ))}
+                </select>
                 <input
                     type='number'
                     className='form-control'
@@ -34,5 +50,6 @@ function Series({ idPrefix, team1Id, team2Id, onScoreChange }) {
         </div>
     );
 }
+
 
 export default Series;
